@@ -1,7 +1,8 @@
 const express = require('express');
 const authController = require('../controllers/authController');
 const employeesController = require('../controllers/employeesController');
-const inventoryController = require('../controllers/gamesController');
+const managersController = require('../controllers/managersController');
+const productsController = require('../controllers/productsController');
 const recordsController = require('../controllers/salesController');
 const { authenticate, authorizeRole, requireManagerOrFirstRegistration } = require('../middlewares/authMiddleware');
 
@@ -11,9 +12,14 @@ router.post('/employees/register', requireManagerOrFirstRegistration, authContro
 router.post('/employees/login', authController.loginEmployee);
 router.get('/employees', authenticate, authorizeRole('worker', 'manager'), employeesController.searchEmployees);
 
-router.get('/products', authenticate, inventoryController.listProducts);
-router.get('/products/:id', authenticate, inventoryController.getProduct);
-router.post('/products', authenticate, authorizeRole('worker', 'manager'), inventoryController.createProduct);
+router.post('/managers/register', requireManagerOrFirstRegistration, managersController.registerManager);
+router.post('/managers/login', managersController.loginManager);
+router.get('/managers', authenticate, authorizeRole('manager'), managersController.listManagers);
+
+router.get('/products', authenticate, productsController.listProducts);
+router.get('/products/:id', authenticate, productsController.getProduct);
+router.post('/products', authenticate, authorizeRole('worker', 'manager'), productsController.createProduct);
+router.delete('/products/:id', authenticate, authorizeRole('manager'), productsController.deleteProduct);
 
 router.get('/records', authenticate, authorizeRole('worker', 'manager'), recordsController.listRecords);
 router.get('/records/:id', authenticate, authorizeRole('worker', 'manager'), recordsController.getRecord);

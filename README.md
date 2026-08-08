@@ -32,20 +32,56 @@ API REST para gerenciamento de inventário e movimentação de produtos de um al
 - Funcionários do almoxarifado podem consultar o inventário, registrar entradas/retiradas e alterar registros
 - Gerentes podem consultar, cadastrar, alterar e excluir registros
 
+REGISTRAR GERENTE porque apenas com o GERENTE pode adicionar novos funcionários E deletar itens
+
 ## Endpoints
 
 - `POST /api/employees/register`
 - `POST /api/employees/login`
 - `GET /api/employees`
+- `POST /api/managers/register`
+- `POST /api/managers/login`
+- `GET /api/managers`
 - `GET /api/products`
 - `GET /api/products/:id`
 - `POST /api/products`
+- `DELETE /api/products/:id`
 - `GET /api/records`
 - `GET /api/records/:id`
 - `POST /api/records/entry`
 - `POST /api/records/withdrawal`
 - `PUT /api/records/:id`
 - `DELETE /api/records/:id`
+
+## Managers
+
+- `POST /api/managers/register` - registra um gerente. O primeiro registro pode ser feito sem token (se não houver managers cadastrados).
+- `POST /api/managers/login` - login de gerente (retorna JWT).
+- `GET /api/managers` - lista gerentes (requer autenticação).
+
+Exemplos rápidos (ajuste `localhost:3000` se necessário):
+
+Criar o primeiro gerente (sem token, apenas quando não houver managers):
+
+```bash
+curl -X POST http://localhost:3000/api/managers/register \
+	-H "Content-Type: application/json" \
+	-d '{"name":"Admin","email":"admin@example.com","password":"senha123"}'
+```
+
+Login de manager:
+
+```bash
+curl -X POST http://localhost:3000/api/managers/login \
+	-H "Content-Type: application/json" \
+	-d '{"email":"admin@example.com","password":"senha123"}'
+```
+
+Listar managers (com token):
+
+```bash
+curl -H "Authorization: Bearer <TOKEN>" http://localhost:3000/api/managers
+```
 
 ## Documentação
 

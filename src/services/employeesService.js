@@ -29,9 +29,14 @@ function getEmployeeByEmail(email) {
   return db.employees.find((employee) => employee.email === email);
 }
 
+function listManagers() {
+  return db.employees.filter((employee) => employee.role === 'manager');
+}
+
 module.exports = {
   createEmployee,
   searchEmployees,
   getEmployeeById,
   getEmployeeByEmail,
+  listManagers,
 };

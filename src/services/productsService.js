@@ -25,8 +25,19 @@ function getProductById(id) {
   return db.products.find((product) => product.id === id);
 }
 
+function deleteProduct(id) {
+  const index = db.products.findIndex((product) => product.id === id);
+  if (index === -1) {
+    return { error: 'Produto não encontrado' };
+  }
+
+  db.products.splice(index, 1);
+  return {};
+}
+
 module.exports = {
   createProduct,
   listProducts,
   getProductById,
+  deleteProduct,
 };

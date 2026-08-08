@@ -1,5 +1,5 @@
 const db = require('../models/db');
-const productsService = require('./gamesService');
+const productsService = require('./productsService');
 
 function createRecord({ employeeId, productId, quantity, type }) {
   if (!employeeId || !productId || typeof quantity !== 'number' || quantity <= 0 || !['entry', 'withdrawal'].includes(type)) {
